@@ -1,28 +1,29 @@
 package name.huhao.springbootdemo.integration.controller;
 
+import io.restassured.http.ContentType;
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import name.huhao.springbootdemo.controller.HomeController;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.when;
+import static org.hamcrest.CoreMatchers.containsString;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(HomeController.class)
 public class HomeControllerIntegrationTest {
 
-    @Autowired
-    private MockMvc mvc;
+    @Before
+    public void setUp() {
+        RestAssuredMockMvc.standaloneSetup(new HomeController());
+    }
 
     @Test
-    public void indexShouldReturnHelloWorld() throws Exception {
-        mvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Hello World!"));
+    public void indexShouldReturnHelloWorld() {
+        when().get("/")
+                .then()
+                .statusCode(200).contentType(ContentType.TEXT)
+                .body(containsString("Hello World!"));
     }
 }

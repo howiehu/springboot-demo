@@ -1,43 +1,44 @@
 package name.huhao.springbootdemo.integration.controller;
 
+import io.restassured.http.ContentType;
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import name.huhao.springbootdemo.controller.UserController;
 import name.huhao.springbootdemo.model.User;
 import name.huhao.springbootdemo.repository.UserRepository;
 import org.assertj.core.util.Lists;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.when;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(UserController.class)
 public class UserControllerIntegrationTest {
-
-    @Autowired
-    private MockMvc mvc;
 
     @MockBean
     private UserRepository userRepository;
 
-    @Test
-    public void indexShouldReturnUsers() throws Exception {
-        List<User> usersFromDB = Lists.newArrayList(new User("Alex", 18));
-        when(userRepository.findAll()).thenReturn(usersFromDB);
+    @Before
+    public void setUp() {
+        RestAssuredMockMvc.standaloneSetup(new UserController(userRepository));
+    }
 
-        mvc.perform(get("/users"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$..[0].name").value("Alex"));
+    @Test
+    public void indexShouldReturnUsers() {
+        List<User> usersFromDB = Lists.newArrayList(new User("Alex", 18));
+        Mockito.when(userRepository.findAll()).thenReturn(usersFromDB);
+
+        when().get("/users")
+                .then()
+                .statusCode(200).contentType(ContentType.JSON)
+                .body("size()", is(1))
+                .body("name", hasItems("Alex"));
     }
 }
