@@ -33,19 +33,19 @@ docker-compose up -d
 使用以下命令运行 API 的端到端测试：
 
 ```bash
-./gradlew test --tests "name.huhao.springbootdemo.e2e.*"
+./gradlew test --tests name.huhao.springbootdemo.e2e.*
 ```
 
 使用以下命令运行 Controller 的集成测试：
 
 ```bash
-./gradlew test --tests "name.huhao.springbootdemo.integration.*"
+./gradlew test --tests name.huhao.springbootdemo.integration.*
 ```
 
 使用以下命令运行 Controller 的单元测试：
 
 ```bash
-./gradlew test --tests "name.huhao.springbootdemo.unit.*"
+./gradlew test --tests name.huhao.springbootdemo.unit.*
 ```
 
 ## 备忘
