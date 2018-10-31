@@ -13,8 +13,6 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.when;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
@@ -32,7 +30,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void indexShouldReturnUsers() {
-        List<User> usersFromDB = Lists.newArrayList(new User("Alex", 18));
+        var usersFromDB = Lists.newArrayList(new User("Alex", 18));
         Mockito.when(userRepository.findAll()).thenReturn(usersFromDB);
 
         when().get("/users")
