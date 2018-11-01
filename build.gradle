@@ -11,7 +11,7 @@ plugins {
     id 'idea'
     id 'org.springframework.boot' version '2.1.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.6.RELEASE'
-    id 'org.flywaydb.flyway' version '5.2.0'
+    id 'org.flywaydb.flyway' version '5.2.1'
 }
 
 group = 'name.huhao'
@@ -34,8 +34,7 @@ dependencies {
     compile "io.springfox:springfox-swagger2:2.9.2"
     compile 'io.springfox:springfox-swagger-ui:2.9.2'
 
-    compile 'org.flywaydb:flyway-core'
-    testCompile 'org.flywaydb.flyway-test-extensions:flyway-spring-test:5.0.0'
+    testCompile 'org.flywaydb.flyway-test-extensions:flyway-spring-test:5.1.0'
 
     runtime 'mysql:mysql-connector-java'
     testRuntime 'com.h2database:h2'
