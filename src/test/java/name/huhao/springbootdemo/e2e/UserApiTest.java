@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -43,8 +45,20 @@ public class UserApiTest {
 
         given().port(port).when().get("/users")
                 .then()
-                .statusCode(200).contentType(ContentType.JSON)
+                .statusCode(HttpStatus.OK.value()).contentType(ContentType.JSON)
                 .body("size()", is(1))
                 .body("name", hasItems("Alex"));
+    }
+
+    @Test
+    public void createShouldCreateUser() {
+        given().port(port).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .body("{\n" +
+                        "  \"name\": \"Alex\",\n" +
+                        "  \"age\": 18\n" +
+                        "}")
+                .when().post("/users")
+                .then()
+                .statusCode(HttpStatus.CREATED.value());
     }
 }

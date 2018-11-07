@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -35,5 +36,14 @@ public class UserControllerTest {
         var users = controller.index();
 
         assertThat(users).isEqualTo(usersFromDB);
+    }
+
+    @Test
+    public void createShouldCreateUser() {
+        var user = new User("Alex", 18);
+
+        controller.create(user);
+
+        verify(userRepository).save(user);
     }
 }

@@ -32,4 +32,15 @@ public class UserRepositoryTest {
                 .hasFieldOrPropertyWithValue("name", "Alex")
                 .hasFieldOrPropertyWithValue("age", 18);
     }
+
+    @Test
+    public void userCanSave() {
+        var user = repository.save(new User("Alex", 18));
+
+        var createdUser = entityManager.find(User.class, user.getId());
+
+        assertThat(createdUser)
+                .hasFieldOrPropertyWithValue("name", "Alex")
+                .hasFieldOrPropertyWithValue("age", 18);
+    }
 }

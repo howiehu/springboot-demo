@@ -11,8 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.when;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
@@ -35,8 +38,20 @@ public class UserControllerIntegrationTest {
 
         when().get("/users")
                 .then()
-                .statusCode(200).contentType(ContentType.JSON)
+                .statusCode(HttpStatus.OK.value()).contentType(ContentType.JSON)
                 .body("size()", is(1))
                 .body("name", hasItems("Alex"));
+    }
+
+    @Test
+    public void createShouldCreateUser() {
+        given().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .body("{\n" +
+                        "  \"name\": \"Alex\",\n" +
+                        "  \"age\": 18\n" +
+                        "}")
+                .when().post("/users")
+                .then()
+                .statusCode(HttpStatus.CREATED.value());
     }
 }
