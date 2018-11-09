@@ -14,6 +14,6 @@ public class HomeController {
     @GetMapping
     @ApiOperation(value = "Index")
     public String index() {
-        return "Hello World";
+        return "Hello World!";
     }
 }
