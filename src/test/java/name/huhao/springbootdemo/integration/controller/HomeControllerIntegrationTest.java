@@ -3,18 +3,18 @@ package name.huhao.springbootdemo.integration.controller;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import name.huhao.springbootdemo.controller.HomeController;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.when;
 import static org.hamcrest.CoreMatchers.containsString;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class HomeControllerIntegrationTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         RestAssuredMockMvc.standaloneSetup(new HomeController());
     }

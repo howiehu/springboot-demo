@@ -6,27 +6,27 @@ import name.huhao.springbootdemo.controller.UserController;
 import name.huhao.springbootdemo.model.User;
 import name.huhao.springbootdemo.repository.UserRepository;
 import org.assertj.core.util.Lists;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.when;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class UserControllerIntegrationTest {
 
     @MockBean
     private UserRepository userRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         RestAssuredMockMvc.standaloneSetup(new UserController(userRepository));
     }
