@@ -43,6 +43,8 @@ dependencies {
 
 
     // just use to show how to use REST Assured to improve test
+    // should place rest-assured before the JUnit dependency declaration in order to make sure
+    // that the correct version of Hamcrest is used
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
     testImplementation 'io.rest-assured:spring-mock-mvc:3.3.0'
 
